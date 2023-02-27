@@ -5,7 +5,7 @@ Project to do retraining of the model
 
 ### Step 1
 
-MNIST model on the mac M1 chip and check how the training is measure performance and run a torchscript to convert the model
+MNIST model/NLP model  on the mac M1 chip and check how the training is measure performance and run a torchscript to convert the model
 
 ## Step 2
 
