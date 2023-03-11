@@ -3,9 +3,15 @@ Project to do retraining of the model
 
 ## Plan
 
-### Step 1
+### Step 1 - Training model and torchscript conversion and model registration
 
-MNIST model/NLP model  on the mac M1 chip and check how the training is measure performance and run a torchscript to convert the model
+**Task at hand**: Sentiment Analysis
+**Dataset used**: [Twitter tweets data](https://www.kaggle.com/datasets/kazanova/sentiment140)
+**Skills to be learnt**: 
+- Sentiment analysis modelling using pytorch lightning
+- MLFlow for experiment tracking and hyper parameter search 
+- MLFlow model registration and versioning
+
 
 ## Step 2
 
