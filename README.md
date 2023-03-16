@@ -1,5 +1,5 @@
 # MLOps
-Project to do retraining of the model
+MLOps Level 4 project
 
 ## Plan
 
