@@ -1,11 +1,38 @@
 from torch.utils.data import random_split,  DataLoader, Dataset
 import pytorch_lightning as pl
 from typing import Optional
-from torchvision.transforms import functional as TF
 import numpy as np
-import random
 import os
+import polars as pd
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
+import re
 
+class TextPreprocess:
+    def __init__(self,text) -> None:
+        self.text = text
+
+    def convert2lower():
+        pass
+
+    def tokenization():
+        pass
+
+    def remove_stop_words():
+        pass
+
+    def stemming():
+        pass
+
+    def lemmatization():
+        pass
+
+    def remove_special_chars():
+        pass
+    
 class CleanTweets(Dataset):
     """ 
     Allows to read the input and target data, 
@@ -15,7 +42,7 @@ class CleanTweets(Dataset):
         Dataset (object)
         
     """
-    def __init__(self, root_path, ipt, tgt, tgt_scale, train_transform=None):
+    def __init__(self, root_path):
         """
         NEEDED: Constructor for dataset class for semantic segmentation.
         https://pytorch.org/tutorials/beginner/basics/data_tutorial.html
@@ -29,61 +56,11 @@ class CleanTweets(Dataset):
         """
         super(CleanTweets, self).__init__()
         self.root_path = root_path
-        self.ipt = ipt
-        self.tgt = tgt
-        self.tgt_scale = tgt_scale
-        self.train_transform = train_transform
-        
-    def my_train_segmentation_transforms(self, input_patch, tgt_patch): 
-        """
-        Function that applies specific, reproducible transformations to single patches of the input and target data for training. 
-        IMPORTANT FEATURE: 
-        The transformations are applied to the input and target patch in the same way. 
-        
-        Args:
-            input_patch (np.array): input data array (image) 224x224 pixels
-            tgt_patch (np.array): target data array (image) 224x224 pixels
-        Returns:
-            set of float 32 tensors: random combinations of the transformations listed below
-        """
-        input_patch = TF.to_tensor(input_patch)
-        tgt_patch = TF.to_tensor(tgt_patch)
-        
-        if random.random() > 0.5:
-            # create random angle between -60 and 60 degrees
-            angle = random.randint(-60, 60)
-            # apply to both input and target patch
-            input_patch = TF.rotate(input_patch, angle)
-            tgt_patch = TF.rotate(tgt_patch, angle)
-            
-        if random.random() > 0.5: 
-            # flip the patches horizontally
-            input_patch = TF.hflip(input_patch)
-            tgt_patch = TF.hflip(tgt_patch)
-            
-        if random.random() > 0.5: 
-            # flip the patches vertically
-            input_patch = TF.vflip(input_patch)
-            tgt_patch = TF.vflip(tgt_patch)
-            
-        return input_patch, tgt_patch
+        df = pd.read_csv(self.root_path)
+        self.text = df["tweet"]
+        self.label = df["target"]
 
-    def my_test_segmentation_transforms(self, input_patch, tgt_patch):
-        """
-        In testing, there is no specific need to transform the data, rotate or flip it. 
-        Therefore, this function only creates a tensor object from the np.array input/target data .
-        Args:
-            input_patch (np.array): input data array (image) 224x224 pixels
-            tgt_patch (np.array): target data array (image) 224x224 pixels
-        Returns:
-            set of float 32 tensors: input and target patch
-        """
-
-        input_patch = TF.to_tensor(input_patch)
-        tgt_patch = TF.to_tensor(tgt_patch)
-        
-        return input_patch, tgt_patch
-        
+    
     def __len__(self):
         """
         Necessary function returning the length of the dataset
